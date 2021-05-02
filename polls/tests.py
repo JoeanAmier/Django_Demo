@@ -1,10 +1,25 @@
 import datetime
+
 from django.test import TestCase
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
+
 from .models import Question
 
+# 运行测试: python manage.py test polls
+"""
+运行过程：
+python manage.py test polls 将会寻找 polls 应用里的测试代码
+它找到了 django.test.TestCase 的一个子类
+它创建一个特殊的数据库供测试使用
+它在类中寻找测试方法——以 test 开头的方法。
+在 test_was_published_recently_with_future_question 方法中，它创建了一个 pub_date 值为 30 天后的 Question 实例。
+接着使用 assertls() 方法，发现 was_published_recently() 返回了 True，而我们期望它返回 False。
+"""
 
+
+# 我们创建了一个 django.test.TestCase 的子类，并添加了一个方法
+# 此方法创建一个 pub_date 时未来某天的 Question 实例。然后检查它的 was_published_recently() 方法的返回值——它 应该 是 False。
 class QuestionModelTests(TestCase):
 
     def test_was_published_recently_with_future_question(self):
@@ -42,11 +57,14 @@ def create_question(question_text, days):
     return Question.objects.create(question_text=question_text, pub_date=time)
 
 
+# Django 提供了一个供测试使用的 Client 来模拟用户和视图层代码的交互。
+# 我们能在 tests.py 甚至是 shell 中使用它。
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
         """
         没有创建任何投票，它检查返回的网页上有没有 "No polls are available." 这段消息和 latest_question_list 是否为空。
         如果没有问题，则会显示相应的消息。
+        django.test.TestCase 类提供了一些额外的 assertion 方法，在这个例子中，我们使用了 assertContains() 和 assertQuerysetEqual() 。
         """
         response = self.client.get(reverse('polls:index'))
         self.assertEqual(response.status_code, 200)
@@ -101,6 +119,7 @@ class QuestionIndexViewTests(TestCase):
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         """
+        创建 pub_date 在未来某天的投票。数据库会在每次调用测试方法前被重置，所以第一个投票已经没了，所以主页中应该没有任何投票。
         具有未来发布日期的问题的详细视图返回404 not found。
         """
         future_question = create_question(question_text='Future question.', days=5)
@@ -110,6 +129,7 @@ class QuestionDetailViewTests(TestCase):
 
     def test_past_question(self):
         """
+        创建了一个投票并检查它是否出现在列表中。
         发布日期在过去的问题的详细视图显示问题的文本。
         """
         past_question = create_question(question_text='Past Question.', days=-5)

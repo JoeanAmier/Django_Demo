@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {# {% static %} 模板标签会生成静态文件的绝对路径。#}
     {% load static %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
@@ -11,6 +12,7 @@
 {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
+            {#url 命名空间:URL名称#}
             <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
         {% endfor %}
     </ul>

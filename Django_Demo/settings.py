@@ -29,13 +29,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'polls.apps.PollsConfig',
+    'django.contrib.admin',  # 管理员站点
+    'django.contrib.auth',  # 认证授权系统
+    'django.contrib.contenttypes',  # 内容类型框架
+    'django.contrib.sessions',  # 会话框架
+    'django.contrib.messages',  # 消息框架
+    'django.contrib.staticfiles',  # 管理静态文件的框架
+    'polls.apps.PollsConfig',  # 把 polls 应用安装到我们的项目里
 ]
 
 MIDDLEWARE = [
@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'Django_Demo.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': {  # 默认数据库
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
@@ -99,9 +99,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = 'zh-hans'  # 语言
 
-TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = 'Asia/Shanghai'  # 时区
 
 USE_I18N = True
 
